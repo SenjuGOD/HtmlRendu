@@ -1,0 +1,94 @@
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+
+public class HtmlRendu {
+    public static void main(String[] args) {
+     String [] token_arr = {
+             "<body>" ,"<b>", "random", "stuff", "sigma1aoihgoashvovhaohvoiahovhoahoisdhvaohgoahohgoahgojnafovnaoihgjbabcdefghijklmnopqgahhhhhhhhhhhhhhhhhhmmmmhhhhhhhhhhhhhhhhhhhhhh" , "</b>", "</body>",
+             "<body>" ,"<b>", "random1", "stuff", "sigma2sgosahldshgpsaihfjewnjnnnwnnnnnnnnnnnnnnnnnnnnnnwihgabcdefghijklmkopqrstuvwxyzeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" , "</b>", "</body>",
+             "<body>" ,"<b>", "random2", "stuff", "sigma3" , "</b>", "</body>",
+             "<body>" ,"<b>", "random3", "stuff", "sigma4" , "</b>", "</body>",
+     };
+     //long max = 65535;
+     int token_ctr = 0;
+     HtmlRendu hr = new HtmlRendu();
+     hr.printHr(token_arr, token_arr.length);
+    }
+
+    public void printHr (String [] token_arr, int arr_len) {
+        int token_ctr = 0;
+        while(arr_len != token_ctr) {
+            int skip_ctr = 0;
+            switch (token_arr[token_ctr]) {
+                case "<p>" :
+                    skip_ctr = print_tag(token_arr,token_ctr,"<p>", "</p", 80);
+                    break;
+                case "<b>" :
+                    skip_ctr = print_tag(token_arr, token_ctr, "<b>", "</b>", 80);
+                    break;
+                case "<i>" :
+                    skip_ctr =  print_tag(token_arr, token_ctr, "<i>", "</i>", 80);
+                    break;
+                case "<q>" :
+                    skip_ctr = print_tag(token_arr, token_ctr, "<q>", "</q>", 80);
+                    break;
+                case "<pre>" :
+                    skip_ctr = print_tag(token_arr, token_ctr, "<pre>", "</pre>", 65535);
+                    break;
+                case "<h1>" :
+                    skip_ctr = print_tag(token_arr, token_ctr, "<h1>", "</h1>", 40);
+                    break;
+                case "<h2>" :
+                    skip_ctr = print_tag(token_arr, token_ctr, "<h1>", "</h1>", 50);
+                    break;
+                case "<h3>" :
+                    skip_ctr = print_tag(token_arr, token_ctr, "<h1>", "</h1>", 60);
+                    break;
+                case "<h4>" :
+                    skip_ctr = print_tag(token_arr, token_ctr, "<h1>", "</h1>", 80);
+                    break;
+                case "<h5>" :
+                    skip_ctr = print_tag(token_arr, token_ctr, "<h1>", "</h1>", 100);
+                    break;
+                case "<h6>" :
+                    skip_ctr = print_tag(token_arr, token_ctr, "<h1>", "</h1>", 120);
+                    break;
+                case "<br>" :
+                    System.out.println("");
+                    break;
+                case "<hr>" :
+                    System.out.println("---");
+                    break;
+
+                default:
+                    break;
+            }
+            token_ctr+=skip_ctr;
+            token_ctr++;  // case char
+        }
+    }
+
+
+    public int print_tag(String [] token_arr , int in_token_ctr,
+                         String start_tag, String end_tag, int line_maxlen) {
+        int skip_p_tag_ctr = 0;
+        String dump_string = "";
+        //System.out.println(token_arr[in_token_ctr]);
+        in_token_ctr++; //skip <p>
+            while (token_arr[in_token_ctr] != end_tag) {
+                //System.out.println(token_arr[in_token_ctr]);
+                dump_string += token_arr[in_token_ctr] + " ";
+                skip_p_tag_ctr++; // so many token have been clubbed into dump string
+                in_token_ctr++;
+            }
+        skip_p_tag_ctr++; // skip </p>
+        //handle if more than 80 lines
+        System.out.println(dump_string.length());
+        if(dump_string.length() >= line_maxlen) {
+            String temp_sub = dump_string.substring(0, line_maxlen);
+            System.out.println(temp_sub);
+            System.out.println(dump_string.substring(line_maxlen, dump_string.length()));
+        }
+        return (skip_p_tag_ctr);
+    }
+}
+
